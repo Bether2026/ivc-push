@@ -102,7 +102,7 @@ module.exports = function(req, res) {
     '?' + queryParams + '&X-Amz-Signature=' + signature;
 
   // URL pública para leer la foto después (requiere bucket público en Cloudflare)
-  var publicUrl = 'https://pub-' + R2_ACCOUNT + '.r2.dev/' + objectKey;
+  var publicUrl = 'https://pub-438b0d51c7a246f38a92859d01cedecd.r2.dev/' + objectKey;
 
   return res.status(200).json({
     uploadUrl: uploadUrl,
