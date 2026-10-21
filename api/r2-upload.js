@@ -10,7 +10,8 @@ var R2_SECRET  = '9c8d4c22013108b10e8f881d7175e3b21e63d79d6796f65856aec4579955fd
 var R2_HOST    = 'ivcfotos.' + R2_ACCOUNT + '.r2.cloudflarestorage.com';
 var R2_PUBLIC  = 'https://pub-438b0d51c7a246f38a92859d01cedecd.r2.dev';
 var APP_SECRET = 'ivc2024secure';
-var ALLOWED    = 'https://ivc-seguridad.vercel.app';
+// Apps que pueden subir fotos: la actual y la nueva (IVC 2)
+var ALLOWED    = ['https://ivc-seguridad.vercel.app', 'https://ivc-2.vercel.app'];
 
 function pad(n) { return String(n).padStart(2,'0'); }
 function hmac(key, data, enc) {
@@ -23,7 +24,9 @@ function sha256(data) {
 module.exports.config = { api: { bodyParser: false } };
 
 module.exports = function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED);
+  var origin = req.headers.origin;
+  res.setHeader('Access-Control-Allow-Origin', ALLOWED.indexOf(origin) >= 0 ? origin : ALLOWED[0]);
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-IVC-Secret, X-IVC-Filename');
 
